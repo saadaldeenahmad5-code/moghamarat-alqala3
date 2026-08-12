@@ -2,136 +2,1119 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مغامرة القلعة</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>🏰 مغامرة القلعة</title>
+
 <style>
-  body {
-    margin: 0; padding: 20px;
-    background: #111827; color: #f9fafb;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-  }
-  .game {
-    width: min(700px, 100%);
-    background: #1f2937; border-radius: 18px;
-    padding: 24px; box-sizing: border-box;
-    box-shadow: 0 10px 35px rgba(0,0,0,.35);
-  }
-  h1 { text-align: center; margin-top: 0; }
-  #story { white-space: pre-line; line-height: 1.9; font-size: 19px; }
-  input {
-    width: 100%; box-sizing: border-box;
-    padding: 14px; margin: 14px 0;
-    border: 0; border-radius: 10px; font-size: 18px;
-  }
-  button {
-    width: 100%; padding: 14px; border: 0; border-radius: 10px;
-    background: #374151; color: white; font-size: 18px; cursor: pointer;
-  }
-  button:hover { background: #4b5563; }
-  .restart { margin-top: 10px; background: #7c3aed; }
-  .error { color: #fca5a5; min-height: 24px; }
+*{box-sizing:border-box}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:Arial,sans-serif;
+color:#fff;
+background:radial-gradient(circle at top,#35446d,#111827 45%,#05070c);
+padding:12px
+}
+
+.game{
+max-width:1100px;
+min-height:calc(100vh - 24px);
+margin:auto;
+background:#0d1422;
+border:1px solid #34405a;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 25px 80px #000b
+}
+
+header{
+text-align:center;
+padding:25px;
+background:linear-gradient(#ffffff12,transparent)
+}
+
+h1{
+font-size:clamp(32px,7vw,58px);
+margin:0
+}
+
+.subtitle{
+color:#aab6cc;
+margin-top:8px
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+padding:12px
+}
+
+.stat{
+background:#182238;
+border:1px solid #ffffff12;
+border-radius:16px;
+padding:10px;
+text-align:center
+}
+
+.stat b{
+display:block;
+font-size:20px;
+margin:4px
+}
+
+.stat small{
+color:#aab6cc
+}
+
+.bar{
+height:7px;
+background:#30394d;
+border-radius:20px;
+overflow:hidden
+}
+
+.fill{
+height:100%;
+transition:.4s
+}
+
+.hp{background:#ef4444}
+.energy{background:#38bdf8}
+
+main{
+padding:12px 16px 20px
+}
+
+.scene{
+min-height:550px;
+padding:clamp(20px,4vw,40px);
+border-radius:24px;
+background:linear-gradient(145deg,#182238,#0b111e);
+border:1px solid #ffffff12;
+display:flex;
+flex-direction:column
+}
+
+.chapter{
+color:#f5c451;
+font-weight:bold;
+font-size:15px
+}
+
+.title{
+font-size:clamp(26px,5vw,44px);
+margin:12px 0
+}
+
+.story{
+white-space:pre-line;
+font-size:clamp(17px,2.4vw,22px);
+line-height:2
+}
+
+.choices{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-top:auto;
+padding-top:30px
+}
+
+button{
+border:1px solid #ffffff18;
+background:#26334d;
+color:#fff;
+border-radius:16px;
+padding:16px;
+font-size:17px;
+font-weight:bold;
+min-height:58px;
+cursor:pointer;
+transition:.15s
+}
+
+button:hover{
+transform:translateY(-2px);
+background:#344462
+}
+
+.primary{
+background:linear-gradient(135deg,#7c3aed,#4338ca);
+border:0
+}
+
+.danger{
+background:linear-gradient(135deg,#991b1b,#dc2626);
+border:0
+}
+
+.gold{
+background:linear-gradient(135deg,#8a5d0c,#d09a24);
+border:0
+}
+
+.good{
+background:linear-gradient(135deg,#087f5b,#12a66f);
+border:0
+}
+
+input{
+width:100%;
+padding:17px;
+margin-top:18px;
+border-radius:14px;
+border:1px solid #ffffff20;
+background:#070c16;
+color:#fff;
+font-size:19px
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:12px
+}
+
+.actions button{
+flex:1
+}
+
+.log{
+text-align:center;
+color:#8f9bb1;
+font-size:14px;
+margin-top:12px
+}
+
+footer{
+text-align:center;
+color:#68758e;
+font-size:12px;
+padding:0 15px 18px
+}
+
+.hidden{
+display:none!important
+}
+
+@media(max-width:650px){
+body{padding:0}
+
+.game{
+min-height:100vh;
+border-radius:0;
+border:0
+}
+
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
+
+.scene{
+min-height:620px;
+border-radius:18px
+}
+
+.choices{
+grid-template-columns:1fr
+}
+}
 </style>
 </head>
+
 <body>
+
 <div class="game">
-  <h1>🏰 مغامرة القلعة</h1>
-  <div id="story"></div>
-  <input id="answer" type="text" autocomplete="off" placeholder="اكتب اختيارك هنا">
-  <button id="submit">اختيار</button>
-  <div id="error" class="error"></div>
-  <button class="restart" onclick="location.reload()">🔄 إعادة اللعبة</button>
+
+<header>
+<h1>🏰 مغامرة القلعة</h1>
+<div class="subtitle">النسخة الكبرى — اختياراتك تصنع القصة</div>
+</header>
+
+<div id="hud" class="stats hidden">
+
+<div class="stat">
+❤️
+<b id="hp">100/100</b>
+<small>الصحة</small>
+<div class="bar">
+<div id="hpbar" class="fill hp"></div>
+</div>
+</div>
+
+<div class="stat">
+⚡
+<b id="energy">100/100</b>
+<small>الطاقة</small>
+<div class="bar">
+<div id="energybar" class="fill energy"></div>
+</div>
+</div>
+
+<div class="stat">
+💰
+<b id="gold">0</b>
+<small>الذهب</small>
+</div>
+
+<div class="stat">
+⭐
+<b id="xp">0</b>
+<small>الخبرة</small>
+</div>
+
+</div>
+
+<main>
+
+<section class="scene">
+
+<div id="chapter" class="chapter">البداية</div>
+
+<h2 id="title" class="title">
+🏰 مغامرة القلعة
+</h2>
+
+<div id="story" class="story"></div>
+
+<div id="input"></div>
+
+<div id="choices" class="choices"></div>
+
+<div id="log" class="log"></div>
+
+</section>
+
+<div class="actions">
+
+<button id="save" class="good hidden">
+💾 حفظ التقدم
+</button>
+
+<button id="new" class="danger">
+🔄 لعبة جديدة
+</button>
+
+</div>
+
+</main>
+
+<footer>
+كل قرار يغير مغامرتك — حاول اكتشاف جميع النهايات.
+</footer>
+
 </div>
 
 <script>
-let step = "name";
-let playerName = "";
 
-const story = document.getElementById("story");
-const answer = document.getElementById("answer");
-const error = document.getElementById("error");
-const submit = document.getElementById("submit");
+const $=id=>document.getElementById(id);
 
-function show(text, placeholder="اكتب اختيارك هنا") {
-  story.textContent = text;
-  answer.value = "";
-  answer.placeholder = placeholder;
-  error.textContent = "";
-  answer.focus();
+let player={
+name:"",
+hp:100,
+energy:100,
+gold:0,
+xp:0,
+key:false,
+sword:false,
+shield:false,
+potion:1,
+magic:false,
+room:"gate",
+seen:[]
+};
+
+const scenes={
+
+gate:{
+chapter:"الفصل الأول — الوصول",
+title:"بوابة القلعة",
+text:()=>`بعد ثلاثة أيام من السفر وصلت إلى قلعة ضخمة فوق جبل أسود.
+
+البرق يضيء أبراجها، والضباب يحيط بالمكان.
+
+${player.name}، أمامك ثلاثة طرق.`,
+choices:[
+["🚪 دخول البوابة","yard"],
+["🕳️ البحث عن مدخل سري","secret"],
+["🏕️ الانتظار حتى الفجر","camp"]
+]
+},
+
+camp:{
+chapter:"الفصل الأول",
+title:"ليلة غامضة",
+text:()=>`أشعلت نارًا خارج القلعة.
+
+عند منتصف الليل سمعت خطوات خلفك.
+
+ثم وجدت كيسًا صغيرًا يحتوي على ذهب.
+
+لكن الظلال بدأت تقترب...`,
+enter:()=>player.gold+=12,
+choices:[
+["💰 أخذ الذهب والدخول","yard"],
+["🏃 الهرب","escape"]
+]
+},
+
+secret:{
+chapter:"الفصل الأول",
+title:"الممر المنسي",
+text:()=>`خلف صخرة وجدت درجًا ينزل تحت الأرض.
+
+على الجدار كتابة:
+
+«الطريق السهل ليس دائمًا الطريق الآمن.»
+
+في نهاية الممر صندوق قديم، وبالقرب منه صوت حارس.`,
+choices:[
+["📦 فتح الصندوق","chest"],
+["🤫 تجاوز الصندوق","dungeon"]
+]
+},
+
+chest:{
+chapter:"الممر السري",
+title:"الصندوق الصدئ",
+text:()=>`فتحت الصندوق.
+
+وجدت مفتاحًا وجرعة علاج وخريطة قديمة للقلعة.`,
+enter:()=>{
+player.key=true;
+player.potion++;
+player.xp+=20;
+},
+choices:[
+["⬆️ الصعود إلى الساحة","yard"],
+["🕯️ متابعة الممر","dungeon"]
+]
+},
+
+yard:{
+chapter:"الفصل الثاني — الساحة",
+title:"حارس البوابة",
+text:()=>`حارس ضخم يقف أمامك.
+
+قال:
+
+«إن كنت تريد دخول القلعة، أثبت أنك لست لصًا.»`,
+choices:[
+["🤝 التحدث باحترام","talk"],
+["⚔️ تحديه","fight"],
+["💰 دفع 10 ذهب","bribe"]
+]
+},
+
+talk:{
+chapter:"الساحة",
+title:"سر الحارس",
+text:()=>`استمع الحارس إلى قصتك.
+
+قال إن سيد القلعة اختفى منذ سنوات، وإن جوهرة سحرية تحمي القرية من مخلوقات الليل.
+
+ثم أعطاك درعًا قديمًا.`,
+enter:()=>{
+player.shield=true;
+player.xp+=25;
+},
+choices:[
+["🗝️ دخول القاعة","hall"],
+["🚪 النزول إلى الزنزانة","dungeon"]
+]
+},
+
+bribe:{
+chapter:"الساحة",
+title:"صفقة الحارس",
+text:()=>player.gold>=10?
+`أخذ الحارس الذهب وسمح لك بالمرور.
+
+لكنه قال:
+
+«لا تثق بالرجل الذي يرتدي الأسود.»`
+:
+`فتشت جيبك...
+
+ليس لديك 10 ذهب!`,
+enter:()=>{
+if(player.gold>=10)player.gold-=10;
+},
+choices:[
+["➡️ دخول القاعة","hall"],
+["🤝 التحدث معه","talk"]
+]
+},
+
+fight:{
+chapter:"الساحة",
+title:"مبارزة الحارس",
+text:()=>`بدأت المبارزة!
+
+الحارس قوي، لكن لديك فرصة إذا استعملت سرعتك.`,
+choices:[
+["⚔️ هجوم قوي","fightwin"],
+["🛡️ الدفاع","fightdef"]
+]
+},
+
+fightwin:{
+chapter:"المبارزة",
+title:"انتصار صعب",
+text:()=>`أصبت الحارس في كتفه.
+
+سقط رمحه ووجدت خلفه مفتاحًا وبعض الذهب.`,
+enter:()=>{
+player.key=true;
+player.gold+=15;
+player.xp+=40;
+player.energy-=15;
+},
+choices:[
+["🏰 دخول القاعة","hall"]
+]
+},
+
+fightdef:{
+chapter:"المبارزة",
+title:"الدفاع",
+text:()=>`دافعت عن نفسك حتى تعب الحارس.
+
+احترم شجاعتك وسمح لك بالمرور.`,
+enter:()=>{
+player.energy-=25;
+player.xp+=15;
+},
+choices:[
+["🏰 دخول القاعة","hall"]
+]
+},
+
+hall:{
+chapter:"الفصل الثالث — القاعة الكبرى",
+title:"ثلاثة أبواب",
+text:()=>`دخلت قاعة ضخمة تتوسطها تماثيل لملوك قدامى.
+
+أمامك ثلاثة أبواب:
+
+🔴 الأحمر — أصوات غريبة
+🔵 الأزرق — مكتبة قديمة
+☠️ الحديدي — زنزانة مظلمة`,
+choices:[
+["🔴 الباب الأحمر","red"],
+["🔵 المكتبة","library"],
+["☠️ الزنزانة","dungeon"]
+]
+},
+
+red:{
+chapter:"الغرفة الحمراء",
+title:"فخ النار",
+text:()=>`أُغلق الباب خلفك.
+
+بدأت النار بالارتفاع!
+
+هناك آلية مخفية، أو يمكنك محاولة تحطيم الباب.`,
+choices:[
+["🧠 البحث عن الآلية","switch"],
+["💥 تحطيم الباب","burn"]
+]
+},
+
+switch:{
+chapter:"الغرفة الحمراء",
+title:"الآلية السرية",
+text:()=>`وجدت زرًا خلف لوحة حجرية وأوقفت النار.
+
+وجدت 25 قطعة ذهب.`,
+enter:()=>{
+player.gold+=25;
+player.xp+=20;
+},
+choices:[
+["⬅️ العودة للقاعة","hall"],
+["📚 الذهاب للمكتبة","library"]
+]
+},
+
+burn:{
+chapter:"الغرفة الحمراء",
+title:"الهروب بالنار",
+text:()=>`حطمت الباب وخرجت.
+
+لكن النيران أصابتك.`,
+enter:()=>{
+player.hp-=25;
+player.energy-=15;
+},
+choices:[
+["⬅️ العودة للقاعة","hall"]
+]
+},
+
+library:{
+chapter:"الفصل الثالث — المكتبة",
+title:"كتاب الساحر",
+text:()=>`وجدت كتابًا يتحدث عن الجوهرة:
+
+«من يريد القوة سيخسر شيئًا، ومن يحمي الآخرين سيجد القوة.»
+
+وجدت أيضًا رمزًا سحريًا:
+
+«نور»`,
+enter:()=>{
+player.magic=true;
+player.gold+=20;
+player.xp+=35;
+},
+choices:[
+["📖 البحث عن أسرار أخرى","library2"],
+["🗼 التوجه للبرج","tower"]
+]
+},
+
+library2:{
+chapter:"المكتبة السرية",
+title:"الخريطة القديمة",
+text:()=>`وجدت خريطة لممر خلف العرش يقود إلى البرج.
+
+وجدت أيضًا 30 قطعة ذهب.`,
+enter:()=>{
+player.gold+=30;
+player.xp+=25;
+},
+choices:[
+["🗼 الذهاب للبرج","tower"],
+["⬅️ العودة للقاعة","hall"]
+]
+},
+
+dungeon:{
+chapter:"الفصل الرابع — الزنزانة",
+title:"وحش الظلام",
+text:()=>`في الظلام ظهر وحش ضخم بعينين حمراوين.
+
+إنه يحرس صندوقًا قديمًا.`,
+choices:[
+["⚔️ القتال","monster"],
+["🧪 استخدام الجرعة","prep"],
+["🏃 الهرب","hall"]
+]
+},
+
+prep:{
+chapter:"الزنزانة",
+title:"جرعة العلاج",
+text:()=>player.potion?
+`شربت جرعة العلاج واستعدت للمواجهة.`
+:
+`ليس لديك جرعة علاج.`,
+enter:()=>{
+if(player.potion){
+player.potion--;
+player.hp=Math.min(100,player.hp+40);
+}
+},
+choices:[
+["⚔️ مواجهة الوحش","monster"]
+]
+},
+
+monster:{
+chapter:"الزنزانة",
+title:"معركة الوحش",
+text:()=>`بدأت المعركة!
+
+${player.shield?"درعك يحميك من الضربة.":"الوحش ضربك بقوة."}`,
+enter:()=>{
+player.hp-=player.shield?18:32;
+player.energy-=20;
+},
+choices:[
+["⚔️ الضربة الأخيرة","monsterwin"],
+["🏃 الهرب للبرج","tower"]
+]
+},
+
+monsterwin:{
+chapter:"الزنزانة",
+title:"🏆 انتصار",
+text:()=>`هزمت الوحش!
+
+داخل الصندوق وجدت:
+
+⚔️ سيفًا لامعًا
+💰 40 ذهب
+⭐ خبرة كبيرة`,
+enter:()=>{
+player.sword=true;
+player.gold+=40;
+player.xp+=60;
+},
+choices:[
+["🗼 صعود البرج","tower"]
+]
+},
+
+tower:{
+chapter:"الفصل الخامس — البرج",
+title:"سيد القلعة",
+text:()=>`وصلت إلى أعلى البرج.
+
+رجل بثياب سوداء يقف أمام نافذة.
+
+قال:
+
+«أخيرًا وصلت يا ${player.name}.
+
+الجوهرة أمامك، لكنك لا تعرف ثمنها.»`,
+choices:[
+["🗣️ الاستماع إليه","truth"],
+["⚔️ مهاجمته","boss"],
+["✨ قول «نور»","light"]
+]
+},
+
+truth:{
+chapter:"البرج",
+title:"الحقيقة",
+text:()=>`أخبرك أن الجوهرة تحمي القرية من وحش أعظم.
+
+إذا أخذتها لنفسك ستحصل على قوة هائلة، لكن القرية ستصبح بلا حماية.
+
+القرار لك.`,
+choices:[
+["💎 أخذ الجوهرة","gem"],
+["🛡️ حماية القرية","protect"]
+]
+},
+
+light:{
+chapter:"البرج",
+title:"سحر النور",
+text:()=>player.magic?
+`نطقت كلمة «نور».
+
+امتلأ البرج بالضوء وانكسر جزء من السحر الأسود.
+
+سيد القلعة تراجع مذهولًا.`
+:
+`نطقت الكلمة.
+
+لكن شيئًا لم يحدث.
+
+ربما تحتاج إلى اكتشاف سر المكتبة أولًا.`,
+choices:[
+["⚔️ القتال","boss"],
+["📚 العودة للمكتبة","library"]
+]
+},
+
+boss:{
+chapter:"الفصل الأخير",
+title:"⚔️ المعركة النهائية",
+text:()=>`بدأت المعركة الأخيرة!
+
+${player.sword?"سيفك السحري يلمع.":"سلاحك العادي بالكاد يؤثر."}
+
+${player.shield?"درعك يحميك من الضربات.":""}`,
+choices:[
+["⚔️ الهجوم بكل القوة","win"],
+["🛡️ الدفاع ثم الهجوم","defend"],
+["🏃 الهروب","escape"]
+]
+},
+
+defend:{
+chapter:"المعركة الأخيرة",
+title:"اللحظة الحاسمة",
+text:()=>`انتظرت حتى أخطأ سيد القلعة.
+
+ظهرت فرصة واحدة للضربة الأخيرة!`,
+enter:()=>{
+player.energy-=20;
+},
+choices:[
+["⚔️ الضربة الأخيرة","win"]
+]
+},
+
+win:{
+chapter:"النهاية",
+title:"🏆 بطل القلعة",
+text:()=>`هزمت سيد القلعة!
+
+${player.magic?
+"استخدمت سحر النور لإغلاق بوابة الظلام."
+:
+"أغلقت البوابة بالقوة التي تعلمتها خلال رحلتك."}
+
+عاد السلام إلى القرية.
+
+وأصبحت ${player.name} حامي القلعة.
+
+⭐ الخبرة: ${player.xp}
+💰 الذهب: ${player.gold}`,
+end:true,
+choices:[
+["🔄 مغامرة جديدة","restart"]
+]
+},
+
+gem:{
+chapter:"النهاية",
+title:"💎 قوة الجوهرة",
+text:()=>`أخذت الجوهرة.
+
+شعرت بقوة هائلة تدخل جسدك.
+
+لكن السماء تحولت إلى الأحمر.
+
+ربحت القوة...
+
+وخسرت حماية القرية.
+
+النهاية:
+
+القوة لها ثمن.`,
+end:true,
+choices:[
+["🔄 مغامرة جديدة","restart"]
+]
+},
+
+protect:{
+chapter:"النهاية",
+title:"🛡️ حامي القرية",
+text:()=>`رفضت أخذ الجوهرة.
+
+ساعدت سيد القلعة على إغلاق بوابة الظلام.
+
+عاد السلام إلى القرية.
+
+وأصبحت حامي القلعة الجديد.
+
+النهاية:
+
+أعظم قوة هي اختيار الخير عندما تستطيع اختيار نفسك.`,
+end:true,
+choices:[
+["🔄 مغامرة جديدة","restart"]
+]
+},
+
+escape:{
+chapter:"النهاية",
+title:"🏃 الهروب",
+text:()=>`هربت من القلعة.
+
+نجوت بحياتك...
+
+لكن بقي سؤال واحد في رأسك:
+
+ماذا كان خلف البرج؟`,
+end:true,
+choices:[
+["🔄 مغامرة جديدة","restart"]
+]
 }
 
-function normalize(text) {
-  return text.trim().toLowerCase();
+};
+
+function updateHUD(){
+
+$("hp").textContent=Math.max(0,player.hp)+"/100";
+
+$("energy").textContent=Math.max(0,player.energy)+"/100";
+
+$("gold").textContent=player.gold;
+
+$("xp").textContent=player.xp;
+
+$("hpbar").style.width=Math.max(0,player.hp)+"%";
+
+$("energybar").style.width=Math.max(0,player.energy)+"%";
+
 }
 
-function finish(text) {
-  show(text, "");
-  answer.style.display = "none";
-  submit.style.display = "none";
+function clamp(){
+
+player.hp=Math.min(100,Math.max(0,player.hp));
+
+player.energy=Math.min(100,Math.max(0,player.energy));
+
 }
 
-function play() {
-  const value = normalize(answer.value);
+function saveGame(){
 
-  if (step === "name") {
-    if (!value) {
-      error.textContent = "اكتب اسمك أولاً.";
-      return;
-    }
-    playerName = answer.value.trim();
-    step = "castle";
-    show(`أهلاً ${playerName}!\n\nأنت أمام القلعة.\n1️⃣ ادخل القلعة\n2️⃣ اهرب`);
-    return;
-  }
+localStorage.setItem(
+"castleSave",
+JSON.stringify(player)
+);
 
-  if (step === "castle") {
-    if (value === "1" || value === "ادخل القلعة") {
-      step = "guard";
-      show("وجدت حارساً أمامك.\n1️⃣ قاتل\n2️⃣ تحدث معه");
-    } else if (value === "2" || value === "اهرب") {
-      finish("🏃 لقد هربت من القلعة...\nانتهت اللعبة!");
-    } else {
-      error.textContent = "خيار خاطئ. اختر 1 أو 2.";
-    }
-    return;
-  }
+$("log").textContent="💾 تم حفظ تقدمك بنجاح.";
 
-  if (step === "guard") {
-    if (value === "1" || value === "قاتل") {
-      finish("⚔️ حاولت قتل الحارس...\nلقد قتلك الحارس! خسرت.");
-    } else if (value === "2" || value === "تحدث") {
-      step = "age";
-      show("🤝 تحدثت مع الحارس، فأعطاك مفتاحاً!\n\nكم عمرك؟", "اكتب عمرك");
-    } else {
-      error.textContent = "خيار خاطئ. اختر 1 أو 2.";
-    }
-    return;
-  }
-
-  if (step === "age") {
-    const age = Number(value);
-    if (!Number.isInteger(age) || age <= 0 || age >= 120) {
-      error.textContent = "عمر خاطئ. أدخل عمراً بين 1 و119.";
-      return;
-    }
-
-    if (age >= 18) {
-      finish("🗡️ يمكنك حمل السيف!\n\nانتهت المرحلة الأولى من مغامرتك بنجاح.");
-    } else if (age <= 13) {
-      finish("👦 لا يمكنك القدوم إلى القلعة أصلاً!\n\nانتهت اللعبة.");
-    } else {
-      finish("🛡️ أنت مراهق، ولا يمكنك حمل السيف بعد.\n\nانتهت اللعبة.");
-    }
-  }
 }
 
-submit.addEventListener("click", play);
-answer.addEventListener("keydown", e => {
-  if (e.key === "Enter") play();
+function resetGame(){
+
+if(confirm("هل تريد بدء مغامرة جديدة؟")){
+
+localStorage.removeItem("castleSave");
+
+location.reload();
+
+}
+
+}
+
+function nameScreen(){
+
+$("hud").classList.add("hidden");
+
+$("save").classList.add("hidden");
+
+$("chapter").textContent="البداية";
+
+$("title").textContent="🏰 من أنت؟";
+
+$("story").textContent=
+"قبل أن تبدأ المغامرة، اكتب اسم المغامر الذي سيدخل القلعة.";
+
+$("input").innerHTML=
+'<input id="nameInput" maxlength="20" placeholder="اكتب اسمك هنا">';
+
+$("choices").innerHTML=
+'<button class="primary" onclick="startGame()">🚀 ابدأ المغامرة</button>';
+
+}
+
+function startGame(){
+
+let name=$("nameInput").value.trim();
+
+if(!name){
+
+alert("اكتب اسمك أولاً");
+
+return;
+
+}
+
+player.name=name;
+
+player.room="gate";
+
+$("hud").classList.remove("hidden");
+
+$("save").classList.remove("hidden");
+
+render("gate");
+
+}
+
+function render(id){
+
+if(id==="restart"){
+
+localStorage.removeItem("castleSave");
+
+location.reload();
+
+return;
+
+}
+
+let scene=scenes[id];
+
+player.room=id;
+
+if(scene.enter&&!player.seen.includes(id)){
+
+player.seen.push(id);
+
+scene.enter();
+
+}
+
+clamp();
+
+updateHUD();
+
+$("chapter").textContent=scene.chapter;
+
+$("title").textContent=scene.title;
+
+$("story").textContent=scene.text();
+
+$("input").innerHTML="";
+
+$("choices").innerHTML="";
+
+$("log").textContent="";
+
+scene.choices.forEach(choice=>{
+
+let button=document.createElement("button");
+
+button.textContent=choice[0];
+
+button.onclick=()=>choose(choice[1]);
+
+if(
+choice[1]==="fight"||
+choice[1]==="boss"||
+choice[1]==="monster"
+){
+
+button.className="danger";
+
+}
+
+if(choice[1]==="gem"){
+
+button.className="gold";
+
+}
+
+if(
+choice[1]==="win"||
+choice[1]==="protect"
+){
+
+button.className="good";
+
+}
+
+$("choices").appendChild(button);
+
 });
 
-show("ما اسمك؟", "اكتب اسمك");
+if(scene.end){
+
+$("save").classList.add("hidden");
+
+}
+
+if(player.hp<=0){
+
+gameOver();
+
+}
+
+}
+
+function choose(next){
+
+if(player.hp<=0){
+
+gameOver();
+
+return;
+
+}
+
+if(next==="bribe"&&player.gold<10){
+
+render("yard");
+
+$("log").textContent=
+"❌ لا تملك 10 ذهب. اختر طريقًا آخر.";
+
+return;
+
+}
+
+if(next==="boss"){
+
+player.hp-=player.sword?10:25;
+
+}
+
+if(next==="win"&&!player.sword){
+
+player.hp-=25;
+
+}
+
+if(next==="escape"){
+
+player.energy-=10;
+
+}
+
+clamp();
+
+if(player.hp<=0){
+
+gameOver();
+
+return;
+
+}
+
+render(next);
+
+}
+
+function gameOver(){
+
+$("chapter").textContent="النهاية";
+
+$("title").textContent="☠️ انتهت المغامرة";
+
+$("story").textContent=
+`سقطت في القلعة، ${player.name}.
+
+لكن الأسطورة لم تنتهِ...
+
+يمكنك المحاولة من جديد.`;
+
+$("choices").innerHTML=
+'<button class="primary" onclick="resetGame()">🔄 المحاولة من جديد</button>';
+
+$("input").innerHTML="";
+
+$("log").textContent="";
+
+$("save").classList.add("hidden");
+
+}
+
+$("save").onclick=saveGame;
+
+$("new").onclick=resetGame;
+
+let saved=null;
+
+try{
+
+saved=JSON.parse(
+localStorage.getItem("castleSave")
+);
+
+}catch(e){}
+
+if(saved&&saved.name){
+
+player=saved;
+
+$("hud").classList.remove("hidden");
+
+$("save").classList.remove("hidden");
+
+render(player.room||"gate");
+
+}else{
+
+nameScreen();
+
+}
+
 </script>
+
 </body>
 </html>
